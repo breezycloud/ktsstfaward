@@ -1,0 +1,96 @@
+﻿@page "/"
+@using System.ComponentModel.DataAnnotations
+@layout LandingLayout
+@inject IAwardService AwardService
+@inject ISnackbar snackBar
+
+
+<EditForm Model="model" OnValidSubmit="GetLetter">
+    <DataAnnotationsValidator/>
+    <LandingSection SectionClass="top-section" BackgroundClass="sweet">
+        <ChildContent>                     
+            <MudText Typo="Typo.h5" Align="Align.Center">Get your award letter</MudText>                    
+            <div class="d-flex align-center justify-center">            
+                <MudStack Justify="Justify.Center" Spacing="10">
+                    <MudPaper Class="pa-5" Outlined="true" Style="width: 500px;">                
+                        <div class="d-flex align-center justify-center">
+                            <MudRadioGroup @bind-SelectedOption="OptionSelected">
+                                <MudRadio Option="@("AppNo")">Application Number</MudRadio>
+                                <MudRadio Option="@("FileNo")">File Number</MudRadio>                
+                            </MudRadioGroup>                                                                
+                        </div> 
+                        <div class="d-flex align-center justify-center">
+                            <MudTextField @ref="numberField" @bind-Value="model!.UserEntry"  Variant="Variant.Outlined" Placeholder="@(string.Format("Enter your {0}", OptionSelected == "AppNo" ? "Application Number" : "File Number"))" />                              
+                        </div>
+                        <div class="d-flex align-center justify-center">
+                            <MudFab Class="mt-4" ButtonType="ButtonType.Submit" Disabled="@isProcessing" Label="@(isProcessing ? "Processing" : "Proceed")" Style="padding: 5px;text-align:center;width:200px;" Color="Color.Success" Size="Size.Medium"/>
+                        </div>                    
+                    </MudPaper>            
+                </MudStack>   
+            </div>           
+        </ChildContent>    
+    </LandingSection>    
+</EditForm>
+
+@code {    
+    private string? OptionSelected { get; set; } = "AppNo";
+    private bool isProcessing = false;
+    private MudTextField<string> numberField =new();
+    class FormModel
+    {
+        [Required(ErrorMessage = "Number field is required")]
+        public string? UserEntry { get; set; }        
+    }
+    FormModel model = new();
+    private bool _showTestimonials { get; set; }
+
+    private void ToggleTestimonials()
+    {
+        _showTestimonials = !_showTestimonials;
+    }
+
+    private string GetTestimonialClass()
+    {
+        if (_showTestimonials)
+        {
+            return $"lp-testimonials";
+        }
+        else
+        {
+            return $"lp-testimonials hide-testimonials";
+        }
+    }
+
+    async Task GetLetter()
+    {
+        isProcessing = true;
+        StateHasChanged();
+        try
+        {
+            var result = await AwardService.GetAwardLetter(OptionSelected!, model.UserEntry!);
+            if (result is null)
+            {
+                numberField.ErrorText = $"Invalid {OptionSelected}";
+                await numberField.FocusAsync();
+            }
+            else if (result.Startses!.Substring(0, 4) == "2019" || result.Startses!.Substring(0, 4) == "2020" )        
+            {
+                await AwardService.PrintAward(result);
+            }
+            else
+            {
+                snackBar.Add("You not authorized!", Severity.Warning);
+            }            
+        }
+        catch (System.Exception)
+        {
+            snackBar.Add("You're not authorized!", Severity.Warning);            
+            throw;
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+}

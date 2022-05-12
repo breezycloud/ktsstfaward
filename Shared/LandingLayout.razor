@@ -1,0 +1,21 @@
+@inherits LayoutComponentBase
+@layout MainLayout
+
+<MudLayout Class="mudblazor-landingpage">
+    <MudAppBar Class="landing-appbar" Elevation="0">
+        <AppBar DrawerToggleCallback="ToggleDrawer" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" Elevation="25" Variant="@DrawerVariant.Temporary">
+        <MudToolBar Dense="true" DisableGutters="true" Class="px-1 docs-gray-bg">
+            <MudIconButton Icon="@Icons.Rounded.Close" Color="Color.Inherit" OnClick="@ToggleDrawer"/>
+            <MudSpacer/>
+        </MudToolBar>
+        @* <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
+            <MudNavLink Href="aboutus">About Us</MudNavLink>            
+            <MudNavLink Href="contact">Contact</MudNavLink>            
+        </MudNavMenu> *@
+    </MudDrawer>
+    <MudMainContent Class="pa-0">
+        @Body        
+    </MudMainContent>
+</MudLayout>
