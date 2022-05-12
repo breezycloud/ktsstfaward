@@ -37,7 +37,7 @@ namespace ktsstfportal.Util
                 // RunCommand(host, user, password, "sudo chmod 777 -R " + remotePath);
                 string from ="/var/www/ktsstf.org/public_html/CDN/images/";
                 var path = $"/{from.Replace(@"\", "/")}";
-                client.DownloadFile($"{path}{value}", stream, );
+                client.DownloadFile($"{path}{value}", stream);
                 stream.Seek(0, SeekOrigin.Begin);                              
                 client.Disconnect();
             }            
