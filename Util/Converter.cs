@@ -35,7 +35,9 @@ namespace ktsstfportal.Util
                 client.Connect();
                 bool connected = client.IsConnected;
                 // RunCommand(host, user, password, "sudo chmod 777 -R " + remotePath);
-                client.DownloadFile($"/var/www/ktsstf.org/public_html/CDN/images/{value}", stream);
+                string from ="/var/www/ktsstf.org/public_html/CDN/images/";
+                var path = $"/{from.Replace(@"\", "/")}";
+                client.DownloadFile($"{path}{value}", stream, );
                 stream.Seek(0, SeekOrigin.Begin);                              
                 client.Disconnect();
             }            

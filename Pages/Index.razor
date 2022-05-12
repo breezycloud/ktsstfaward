@@ -66,7 +66,6 @@
     async Task GetLetter()
     {
         isProcessing = true;
-        StateHasChanged();
         try
         {
             var result = await AwardService.GetAwardLetter(OptionSelected!, model.UserEntry!);
@@ -77,6 +76,7 @@
             }
             else if (result.FileNo <= 0 || result.FileNo == null)
             {
+                Console.WriteLine("Nan ne");
                 snackBar.Add("You not authorized!", Severity.Warning);
             }
             else if (result.Startses!.Substring(0, 4) == "2019" || result.Startses!.Substring(0, 4) == "2020" )        
@@ -86,12 +86,13 @@
             else
             {
                 snackBar.Add("You not authorized!", Severity.Warning);
+                Console.WriteLine("Kila Nan ne");
             }            
         }
-        catch (System.Exception)
+        catch (System.Exception ex)
         {
             snackBar.Add("You're not authorized!", Severity.Warning);            
-            throw;
+            Console.WriteLine(ex);
         }
         finally
         {

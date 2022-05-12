@@ -42,8 +42,10 @@ public class AwardService : IAwardService
 
     public async ValueTask PrintAward(Studentslist student)
     {
+        byte[] photo = Array.Empty<byte>();
         var qrCode = await _helper.ConvertImageToByte(student.FileNo!.ToString()!);
-        var photo = await _helper.GetImageByte(student.PhotoUrl!);
+        if (!string.IsNullOrEmpty(student.PhotoUrl))
+            photo = await _helper.GetImageByte(student.PhotoUrl!);
         using var fs = Assembly.GetExecutingAssembly().GetManifestResourceStream("ktsstfportal.Report.AwardLetter.rdlc");
         LocalReport report = new();
         report.LoadReportDefinition(fs);
