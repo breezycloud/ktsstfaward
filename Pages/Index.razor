@@ -75,6 +75,10 @@
                 numberField.ErrorText = $"Invalid {OptionSelected}";
                 await numberField.FocusAsync();
             }
+            else if (result.FileNo <= 0 || result.FileNo == null)
+            {
+                snackBar.Add("You not authorized!", Severity.Warning);
+            }
             else if (result.Startses!.Substring(0, 4) == "2019" || result.Startses!.Substring(0, 4) == "2020" )        
             {
                 await AwardService.PrintAward(result);
