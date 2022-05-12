@@ -10,23 +10,25 @@
     <LandingSection SectionClass="top-section" BackgroundClass="sweet">
         <ChildContent>                     
             <MudText Typo="Typo.h5" Align="Align.Center">Get your award letter</MudText>                    
-            <div class="d-flex align-center justify-center">            
-                <MudStack Justify="Justify.Center" Spacing="10">
-                    <MudPaper Class="pa-5" Outlined="true" Style="width: 500px;">                
-                        <div class="d-flex align-center justify-center">
-                            <MudRadioGroup @bind-SelectedOption="OptionSelected">
-                                <MudRadio Option="@("AppNo")">Application Number</MudRadio>
-                                <MudRadio Option="@("FileNo")">File Number</MudRadio>                
-                            </MudRadioGroup>                                                                
-                        </div> 
-                        <div class="d-flex align-center justify-center">
-                            <MudTextField @ref="numberField" @bind-Value="model!.UserEntry"  Variant="Variant.Outlined" Placeholder="@(string.Format("Enter your {0}", OptionSelected == "AppNo" ? "Application Number" : "File Number"))" />                              
-                        </div>
-                        <div class="d-flex align-center justify-center">
-                            <MudFab Class="mt-4" ButtonType="ButtonType.Submit" Disabled="@isProcessing" Label="@(isProcessing ? "Processing" : "Proceed")" Style="padding: 5px;text-align:center;width:200px;" Color="Color.Success" Size="Size.Medium"/>
-                        </div>                    
-                    </MudPaper>            
-                </MudStack>   
+            <div class="d-flex align-center justify-center">   
+                <MudPaper Class="pa-2" Outlined="true" Style="width: 500px;">                  
+                    <MudGrid Justify="Justify.Center">                    
+                        <MudItem xs="12">
+                            <div class="d-flex align-center justify-center">
+                                <MudRadioGroup @bind-SelectedOption="OptionSelected">
+                                    <MudRadio Option="@("AppNo")">Application Number</MudRadio>
+                                    <MudRadio Option="@("FileNo")">File Number</MudRadio>                
+                                </MudRadioGroup>                                                                
+                            </div> 
+                            <div class="d-flex align-center justify-center">
+                                <MudTextField @ref="numberField" @bind-Value="model!.UserEntry"  Variant="Variant.Outlined" Placeholder="@(string.Format("Enter your {0}", OptionSelected == "AppNo" ? "Application Number" : "File Number"))" />                              
+                            </div>                    
+                            <div class="d-flex align-center justify-center">
+                                <MudFab Class="mt-4" ButtonType="ButtonType.Submit" Disabled="@isProcessing" Label="@(isProcessing ? "Processing" : "Proceed")" Style="padding: 5px;text-align:center;width:200px;" Color="Color.Success" Size="Size.Medium"/>
+                            </div>                          
+                        </MudItem>                                 
+                    </MudGrid>   
+                </MudPaper>                                     
             </div>           
         </ChildContent>    
     </LandingSection>    
