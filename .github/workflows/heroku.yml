@@ -3,7 +3,6 @@ name: "CI & CD"
 on:
   push:
     branches: [ main ]
-
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
